@@ -1,0 +1,29 @@
+{% extends 'booking/base.html' %}
+
+{% block content %}
+    <h2 class="text-black-50 my-4">Dashboard</h2>
+    <hr>
+    <!-- TOP card START -->
+    {% include 'booking/admin/components/home_top_card.html' %}
+    <!-- TOP card END -->
+
+    <h4 class="text-black-50">Overview</h4>
+    <hr>
+
+    <div class="row">
+        <!-- last witing appontments tabel START -->
+        <div class="col-lg-6 table-responsive my-2">
+            <h6 class="text-black-50">This weeek Apointments</h6>
+            {% include 'booking/admin/components/appointment_tabel.html' with bookings=last_bookings %}
+        </div>
+        <!-- last witing appontments tabel END -->
+
+        <!-- last witing appontments tabel START -->
+        <div class="col-lg-6 table-responsive my-2">
+            <h6 class="text-black-50">Waiting Apointments</h6>
+            {% include 'booking/admin/components/appointment_tabel.html' with bookings=waiting_bookings %}
+        </div>
+        <!-- last witing appontments tabel END -->
+
+    </div>
+{% endblock content %}

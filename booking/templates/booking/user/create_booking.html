@@ -1,0 +1,217 @@
+{% extends 'booking/user/base.html' %}
+{% load static %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+{% endblock extra_css %}
+
+{% block side_text %}
+    <div class="booking-cta">
+        <h1>My website</h1>
+        <p>Make your appointment easly with us.</p>
+    </div>
+
+
+{% endblock side_text %}
+
+
+{% block steps %}
+    {% if form.errors %}
+        <div id="booking-errors">
+            {% for field in form %}
+                {% for error in field.errors %} 
+                    <div class="alert alert-danger">
+                        <strong>({{field.label}})</strong>, {{ error|escape }}
+                    </div>
+                {% endfor %}
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <!-- step 1 START -->
+    <div class="tab-pane fade show active" id="pills-date" role="tabpanel" aria-labelledby="pills-date-tab">
+        <h1 class="text-muted h2">Date</h1>
+        <p class="text-muted">Please select the appointment date:</p>
+        <hr>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-floating">
+                    <input type="text" required class="form-control" name="date" id="date" placeholder="DD/MM/YYYY">
+                    <label for="date">Date</label>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- step 1 END -->
+
+    <!-- step 1 START -->
+    <div class="tab-pane fade" id="pills-time" role="tabpanel" aria-labelledby="pills-time-tab">
+        <input type="hidden" required id="time" name="time">
+        <h1 class="text-muted h2">Time</h1>
+        <p class="text-muted">Please select the appointment time:</p>
+        <hr>
+        <div class="row g-2">
+            <p class="border mx-1 col-2 py-3 text-center bg-secondary">9:00</p>
+            <p class="border mx-1 col-2 py-3 text-center bg-light">9:30</p>
+            <p class="border mx-1 col-2 py-3 text-center bg-secondary">10:00</p>
+            <p class="border mx-1 col-2 py-3 text-center bg-light">10:30</p>
+            <p class="border mx-1 col-2 py-3 text-center bg-light">11:00</p>
+            <p class="border mx-1 col-2 py-3 text-center bg-light">11:30</p>
+            <p class="border mx-1 col-2 py-3 text-center bg-light">12:00</p>
+            <p class="border mx-1 col-2 py-3 text-center bg-light">12:30</p>
+            <p class="border mx-1 col-2 py-3 text-center bg-light">13:00</p>
+            <p class="border mx-1 col-2 py-3 text-center bg-light">13:30</p>
+            <p class="border mx-1 col-2 py-3 text-center bg-light">14:00</p>
+            <p class="border mx-1 col-2 py-3 text-center bg-light">14:30</p>
+            <p class="border mx-1 col-2 py-3 text-center bg-light">15:00</p>
+            <p class="border mx-1 col-2 py-3 text-center bg-light">15:30</p>
+            <p class="border mx-1 col-2 py-3 text-center bg-light">16:00</p>
+            <p class="border mx-1 col-2 py-3 text-center bg-light">16:30</p>
+            <p class="border mx-1 col-2 py-3 text-center bg-light">17:00</p>
+            <p class="border mx-1 col-2 py-3 text-center bg-light">17:30</p>
+        </div>
+    </div>
+
+    <!-- step 1 END -->
+
+    <!-- step 2 START -->
+    <div class="tab-pane fade" id="pills-personal" role="tabpanel" aria-labelledby="pills-personal-tab">
+        <h1 class="text-muted h2">Your information</h1>
+        <p class="text-muted">please Enter your personal information</p>
+        <hr>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-floating">
+                    <input type="text" required class="form-control" name="user_name" placeholder="Your full name">
+                    <label for="name">Name</label>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-floating">
+                    <input type="email" required class="form-control" name="user_email" placeholder="name@example.com">
+                    <label for="email">Email address</label>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- step 2 END -->
+
+    <!-- step 3 START -->
+    <div class="tab-pane fade" id="pills-done" role="tabpanel" aria-labelledby="pills-done-tab">      
+        <h1 class="text-success h2">Your appointment Created!</h1>
+        <p class="text-muted">you will get a confirmation email soon.</p>
+        <p class="text-muted">thanks for your time!</p>
+        <div class="d-flex align-items-center text-center justify-content-center py-3 border">
+            <h4 class="text-muted">appointment ID:  </h4>
+            <h2 style="padding-left: 6px;"> #2354</h2>
+        </div>
+    </div>
+    <!-- step 3 END -->
+    </div>
+{% endblock steps %}
+
+{% block extra_script %}
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
+<script>
+    // go to Success Page
+    const urlParams = new URLSearchParams(document.location.search.substring(1)); 
+    const type = urlParams.get("type")
+    if (type === "successed"){
+        const progress_bar = document.querySelector(".progress-bar")
+        progress_bar.style.width = "100%"
+        progress_bar.innerHTML = "100%"
+        progress_bar.classList.add("bg-success")
+
+        document.getElementById("pills-date").classList.add("d-none")
+        document.getElementById("next-step").classList.add("d-none")
+        document.getElementById("make-new-app").classList.remove("d-none")
+        document.getElementById("pills-done").classList.add("active","show")
+
+    }
+    
+    // Wizard Steps
+    function change_steps(type) {
+        const errors = document.querySelector("#booking-errors");
+        if (errors){
+            errors.remove()
+        }
+        let el = document.querySelector(".tab-pane.active")
+        if (el.id === "pills-personal") {
+            return document.querySelector("#bookingForm").submit()
+            
+        }
+        
+        const previous_step = document.getElementById("previous-step")
+        if (type === "next") {
+            if (el.nextElementSibling){
+                previous_step.classList.remove("d-none")
+                el.classList.remove("active","show")
+                el.nextElementSibling.classList.add("active","show")
+            }
+        }else if(type="previous"){
+            if (el.previousElementSibling){
+                el.classList.remove("active","show")
+                el.previousElementSibling.classList.add("active","show")
+            }
+        }
+
+        el = document.querySelector(".tab-pane.active")
+        
+        const progress_bar = document.querySelector(".progress-bar")
+        progress_bar.classList.remove("bg-success")
+
+        if (el.id === "pills-date"){
+            progress_bar.style.width = "6%"
+            progress_bar.innerHTML = "0%"
+            previous_step.classList.add("d-none")
+        }else if (el.id === "pills-time"){
+            progress_bar.style.width = "30%"
+            progress_bar.innerHTML = "30%"
+        }else if (el.id === "pills-personal") {
+            progress_bar.style.width = "75%"
+            progress_bar.innerHTML = "75%"
+        }
+    }
+
+    // Date Functions START
+    var d = new Date();
+    d.setMonth(d.getMonth() + 1);
+
+    function rmWeekend(date) {
+        return (date.getDay() === 0 || date.getDay() === 6);
+    }
+
+    flatpickr("#date", {
+        minDate :"today",
+        maxDate :d,
+        disable: [rmWeekend, "2021-08-08", "2021-08-09", "2021-08-12"],
+        shorthand: true,
+        "locale": {
+            "firstDayOfWeek": 1 // start week on Monday
+        }
+    })
+    // Date Functions END
+
+    // time functions  START
+    document.querySelectorAll("#pills-time .bg-light").forEach(timeBtn => {
+        timeBtn.addEventListener("click", timeBtnClicked.bind(this, timeBtn))
+    })
+
+    function timeBtnClicked(item) {
+        document.querySelectorAll("#pills-time .bg-primary").forEach(item=>{
+            item.classList.remove("bg-primary","text-white")
+            item.classList.add("bg-light")
+        })
+        item.classList.remove("bg-light")
+        item.classList.add("bg-primary", "text-white")
+
+        document.querySelector("#time").value = item.innerHTML
+    }
+    // time functions  END
+
+
+    
+
+</script>
+{% endblock extra_script %}

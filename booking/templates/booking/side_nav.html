@@ -1,0 +1,32 @@
+<ul class="ps-2 navbar-nav  bg-primary sidebar sidebar-dark accordion col-2 h-auto">
+    <!-- header -->
+    <a class="my-3 text-white d-flex align-items-center justify-content-start text-decoration-none"
+        href="index.html">
+        <h4 class="sidebar-brand-icon rotate-n-15">
+            <i class="fas fa-calendar-week"></i>
+        </h4>
+        <h4 class="mx-3">FBooking</h4>
+    </a>
+    <!-- nav links START -->
+    <hr class="sidebar-divider mb-0">
+    <li class="nav-item active">
+        <a class="nav-link" href="{% url 'admin_dashboard' %}">
+            <i class="fas fa-fw fa-tachometer-alt"></i>
+            <span>Dashboard</span>
+        </a>
+    </li>
+    <hr class="sidebar-divider my-0">
+    <li class="nav-item my-3">
+        <a class="text-decoration-none" href="{% url 'booking_list' %}">
+            <i class="fas fa-fw fa-calendar-check"></i>
+            <span>Appointments</span>
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="text-decoration-none" href="#">
+            <i class="fas fa-fw fa-newspaper"></i>
+            <span>Settings</span>
+        </a>
+    </li>
+    <!-- nav links END -->
+</ul>

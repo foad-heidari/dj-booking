@@ -1,0 +1,58 @@
+<table class="table table-bordered table-hover">
+    <thead>
+      <tr>
+        {% if full_table %}
+          <th scope="col">#</th>
+        {% endif %}
+        <th scope="col">Name</th>
+        <th scope="col">Date</th>
+        <th scope="col">Time</th>
+        <th scope="col">Email</th>
+        {% if full_table %}
+          <th scope="col">Created_at</th>
+          <th scope="col">Actions</th>
+        {% endif %}
+
+      </tr>
+    </thead>
+    <tbody>
+      {% for books in bookings %}
+      <tr>
+        {% if full_table %}
+          <th scope="row">{{books.id}}</th>
+        {% endif %}
+
+        <td>{{books.user_name}}</td>
+        <td>{{books.date}}</td>
+        <td>{{books.time}}</td>
+        <td>{{books.user_email}}</td>
+        {% if full_table %}
+          <td>{{books.created_at}}</td>
+          <td class="d-flex">
+
+            <div class="col dropdown">
+              <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+              </button>
+              <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                {% if not books.approved %}
+                  <li><a class="dropdown-item" href="#">Approve</a></li>
+                {% endif %}
+
+                <li><a class="dropdown-item" href="#">Remove</a></li>
+              </ul>
+            </div>
+            <div class="col">
+              {% if books.approved %}
+                  <i class="fas fa-check-square text-success"></i>
+              {% else %}
+                  <i class="far fa-pause-circle text-danger"></i>
+              {% endif %}
+
+            </div>
+        </td>
+        {% endif %}
+      </tr>
+      {% endfor %}
+
+    </tbody>
+  </table>

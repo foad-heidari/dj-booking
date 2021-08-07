@@ -1,0 +1,75 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+
+	<title>{% block title%}Booking{% endblock title%}</title>
+
+	<!-- Google font -->
+	<link href="https://fonts.googleapis.com/css?family=Lato:400,700" rel="stylesheet">
+
+	<!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+	<!-- Custom stlylesheet -->
+
+	<link type="text/css" rel="stylesheet" href="{% static 'css/style.css' %}" />
+
+    {% block extra_css %}
+    {% endblock extra_css %}
+</head>
+
+<body>
+	
+	<div id="booking" class="section"
+        style="background-image: url('{% static 'img/image1.jpg' %}');">
+		<div class="section-center">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-4">
+                        {% block side_text %}
+                        {% endblock side_text %}
+					</div>
+					<div class="col-md-7 col-md-offset-1">
+						<div class="booking-form">
+                            <!-- progress START -->
+                            <div class="progress mb-4">
+                                <div class="progress-bar" role="progressbar" style="width: 6%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">0%</div>
+                            </div>
+                            <!-- progress END -->
+							<form method="POST" id="bookingForm">
+                                {% csrf_token %}
+                                <!-- tabs START -->
+                                <div class="tab-content" id="pills-tabContent">
+                                    {% block steps %}
+                                    {% endblock steps %}
+                                  
+                                <!-- tabs END -->
+                                {% block buttons %}
+                                    <div class="form-btn d-flex mt-4">
+                                        <button type="button" onclick="change_steps('previous')" id="previous-step" class="btn btn-outline-secondary d-none">previous step</button>
+                                        <button type="button" onclick="change_steps('next')" id="next-step"  class="btn btn-primary border-0 text-uppercase ml-auto">Next step</button>
+                                        <a href="{% url 'create_booking' %}" id="make-new-app" class="btn btn-primary mx-auto d-none">Make another appointment</a>
+                                    </div>
+                                {% endblock buttons %}
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
+    {% block extra_script %}
+    {% endblock extra_script %}
+</body>
+
+</html>
