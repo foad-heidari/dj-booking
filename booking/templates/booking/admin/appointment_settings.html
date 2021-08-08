@@ -1,0 +1,38 @@
+{% extends 'booking/base.html' %}
+
+{% block content %}
+    <h2 class="text-black-50 my-4">Booking Settings</h2>
+    <hr>
+    <div class="container col-md-8">
+        {% include 'booking/admin/components/show_errors.html' %}
+        {% if request.GET.type == 'successed' %}
+            <div class="alert alert-success">
+                <strong>Settings successfully saved</strong>
+            </div>
+        {% endif %}
+        <form method="POST" class="row">
+            {% csrf_token %}
+            {% for field in form %}
+                {% if field.field.widget.input_type == 'checkbox' %}
+                    <div class="col-md-4">
+                        <div class="mb-3">
+                            {{field}}
+                            <label for="{{ field.id_for_label }}" class="form-label">{{field.label}}</label>
+                        </div>
+                    </div>
+                {% else %}
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="{{ field.id_for_label }}" class="form-label">{{field.label}}</label>
+                            {{field}}
+                        </div>
+                    </div>
+                {% endif %}
+            {% endfor %}
+            <hr>
+            <div class="d-grid col-2 ml-auto">    
+                <button type="submit" class="btn btn-primary">Save</button>
+            </div>
+        </form>
+    </div>
+{% endblock content %}

@@ -16,17 +16,7 @@
 
 
 {% block steps %}
-    {% if form.errors %}
-        <div id="booking-errors">
-            {% for field in form %}
-                {% for error in field.errors %} 
-                    <div class="alert alert-danger">
-                        <strong>({{field.label}})</strong>, {{ error|escape }}
-                    </div>
-                {% endfor %}
-            {% endfor %}
-        </div>
-    {% endif %}
+    {% include 'booking/admin/components/show_errors.html' %}
 
     <!-- step 1 START -->
     <div class="tab-pane fade show active" id="pills-date" role="tabpanel" aria-labelledby="pills-date-tab">
