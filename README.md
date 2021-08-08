@@ -1,7 +1,5 @@
-===================
  Django Booking
 ===================
-
 
 Django Booking is a Complete booking system as a package for Django.
 
