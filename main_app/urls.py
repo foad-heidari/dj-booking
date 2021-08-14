@@ -7,7 +7,7 @@ from main_app import settings
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path("", include("booking.urls"))
+    path("booking/", include("booking.urls"))
 ]
 
 # Debug mode

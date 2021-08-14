@@ -35,10 +35,10 @@
               </button>
               <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
                 {% if not books.approved %}
-                  <li><a class="dropdown-item" href="#">Approve</a></li>
+                  <li><a class="dropdown-item" href="{% url 'booking_update' books.id 'approved' %}">Approve</a></li>
                 {% endif %}
 
-                <li><a class="dropdown-item" href="#">Remove</a></li>
+                <li><a class="dropdown-item" href="{% url 'booking_update' books.id 'delete' %}">Remove</a></li>
               </ul>
             </div>
             <div class="col">

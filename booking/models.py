@@ -44,10 +44,10 @@ class BookingManager(models.Model):
     confirmation_required = models.BooleanField(default=True)
     # Date
     dissable_weekend = models.BooleanField(default=True)
-    available_booking_months = models.IntegerField(default=1)
+    available_booking_months = models.IntegerField(default=1, help_text="if 2, user can only book appointment for next two months.")
     max_appointment_per_day = models.IntegerField(null=True, blank=True)
     # Time
     start_time = models.TimeField()
     end_time = models.TimeField()
-    period_of_each_booking = models.CharField(max_length=3, default="30", choices=BOOKING_PERIOD)
-    max_appointment_per_time = models.IntegerField(default=1)
+    period_of_each_booking = models.CharField(max_length=3, default="30", choices=BOOKING_PERIOD, help_text="How long each appointment take.")
+    max_appointment_per_time = models.IntegerField(default=1, help_text="how much appointment can be book for each time.")

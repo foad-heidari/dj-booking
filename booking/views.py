@@ -1,4 +1,5 @@
-from django.shortcuts import reverse
+from django.contrib import messages
+from django.shortcuts import reverse, redirect, get_object_or_404
 # from django.contrib.auth.decorators import user_passes_test
 # from django.contrib.auth.mixins import LoginRequiredMixin
 # from django.utils.decorators import method_decorator
@@ -45,6 +46,23 @@ class BookingSettingsView(UpdateView):
     
     def get_success_url(self):
         return reverse("booking_settings") + "?type=successed"
+
+
+def bookingUpdateView(request,id, type):
+    if request.method == "GET":
+        item = get_object_or_404(Booking, id=id)
+        if type == "delete":
+            item.delete()
+            messages.warning(request, "The item successfully deleted!")
+        elif type == "approved":
+            item.approved = True
+            item.save()
+            messages.success(request, "The item successfully approved!")
+
+
+        return redirect(reverse("booking_list"))
+    
+    return redirect(reverse("create_booking"))
 
 
 # # # # # # # #
