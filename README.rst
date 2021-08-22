@@ -66,11 +66,11 @@ The App
 
 - booking page
 
-  ![booking page](/docs/img/1.png)
+  ![booking page](./docs/img/1.png)
 
 - Admin Page
 
-  ![booking page](/docs/img/2.png)
+  ![booking page](./docs/img/2.png)
 
 Getting Involved
 ================
