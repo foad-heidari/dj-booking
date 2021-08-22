@@ -1,12 +1,12 @@
+<div id="booking-errors">
 {% if form.errors %}
-    <div id="booking-errors">
-        {% for field in form %}
-            {% for error in field.errors %} 
-                <div class="alert alert-danger">
-                    <strong>({{field.label}})</strong>, {{ error|escape }}
-                </div>
-            {% endfor %}
+    {% for field in form %}
+        {% for error in field.errors %} 
+            <div class="alert alert-danger">
+                <strong>({{field.label}})</strong>, {{ error|escape }}
+            </div>
         {% endfor %}
-        <hr>
-    </div>
+    {% endfor %}
+    <hr>
 {% endif %}
+</div>
