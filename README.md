@@ -1,21 +1,18 @@
  Django Booking
-===============
+ ===============
 
 Django Booking is a Complete Django booking system.
 
-
 Overview
 ===============
-what you get:
-   - A booking page which user can book appointment.
-   - A dashboard which admin can see the appointments and make actions
 
+what you get:
+   - A booking page which users can book appointments.
+   - A dashboard which the admin can see the appointments and make actions
 
 Requirements
 ============
-
 Django Booking requires Django 3 or later.
-
 
 Getting It
 ==========
@@ -36,8 +33,7 @@ To enable `dj_booking` in your project you need to add it to `INSTALLED_APPS` in
         ...
     )
 
-
-And include dj_booking to yor urls::
+And include dj_booking to your URLs::
     
     from django.urls import path, include
 
@@ -48,18 +44,15 @@ And include dj_booking to yor urls::
         ...
     )
 
-
 Using It
 ========
-
     $ python manage.py migrate
     $ python mange.py runserver
 
 then you can visit the pages::
 
-- booking page: http://localhost:8000/booking
-- booking page: http://localhost:8000/booking/admin
-
+- Booking page: http://localhost:8000/booking
+- Admin page: http://localhost:8000/booking/admin
 
 The App
 =======
@@ -75,22 +68,18 @@ The App
 
 Getting Involved
 ================
-
 Open Source projects can always use more help. Fixing a problem, documenting a feature, adding
 translation in your language. If you have some time to spare and like to help us, here are the places to do so:
 
 - GitHub: https://github.com/foad-heidari/dj-booking
 
-
 Documentation
 =============
-
-You can view documentation online at:
+You can view the documentation online at:
 
 - https://dj-booking.readthedocs.io
 
 Or you can look at the docs/ directory in the repository.
-
 
 Support
 =======
