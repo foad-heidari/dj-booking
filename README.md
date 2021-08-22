@@ -66,7 +66,6 @@ The App
 
 - booking page
 
-
   ![booking page](https://github.com/foad-heidari/dj_booking/blob/main/docs/img/1.png?raw=true)
 
 - Admin Page
