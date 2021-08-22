@@ -66,6 +66,7 @@ Documentation
 You can view the documentation online at:
 
 - https://dj-booking.readthedocs.io
+- https://pypi.org/project/dj-booking
 
 Or you can look at the docs/ directory in the repository.
 
