@@ -10,6 +10,7 @@ what you get:
    - A booking page which user can book appointment.
    - A dashboard which admin can see the appointments and make actions
 
+
 Requirements
 ============
 
@@ -18,6 +19,8 @@ Django Booking requires Django 3 or later.
 
 Getting It
 ==========
+
+Python package::
 
     $ pip install dj-booking
 
@@ -29,12 +32,15 @@ To enable `dj_booking` in your project you need to add it to `INSTALLED_APPS` in
 
     INSTALLED_APPS = (
         ...
-        'dj_booking',
+        'booking',
         ...
     )
 
 
 And include dj_booking to yor urls::
+    
+    from django.urls import path, include
+
 
     urlpatterns = (
         ...
@@ -54,6 +60,17 @@ then you can visit the pages::
 - booking page: http://localhost:8000/booking
 - booking page: http://localhost:8000/booking/admin
 
+
+The App
+=======
+
+- booking page
+
+  ![booking page](/docs/img/1.png)
+
+- Admin Page
+
+  ![booking page](/docs/img/2.png)
 
 Getting Involved
 ================
