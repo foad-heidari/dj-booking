@@ -66,11 +66,12 @@ The App
 
 - booking page
 
-  ![booking page](./docs/img/1.png)
+  ![booking page](https://github.com/foad-heidari/dj_booking/blob/main/docs/img/1.png?raw=true)
 
 - Admin Page
 
-  ![booking page](./docs/img/2.png)
+  ![booking page](https://github.com/foad-heidari/dj_booking/blob/main/docs/img/2.png?raw=true)
+  
 
 Getting Involved
 ================
