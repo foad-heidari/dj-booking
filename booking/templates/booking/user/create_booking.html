@@ -40,25 +40,7 @@
         <h1 class="text-muted h2">Time</h1>
         <p class="text-muted">Please select the appointment time:</p>
         <hr>
-        <div class="row g-2">
-            <p class="border mx-1 col-2 py-3 text-center bg-secondary">9:00</p>
-            <p class="border mx-1 col-2 py-3 text-center bg-light">9:30</p>
-            <p class="border mx-1 col-2 py-3 text-center bg-secondary">10:00</p>
-            <p class="border mx-1 col-2 py-3 text-center bg-light">10:30</p>
-            <p class="border mx-1 col-2 py-3 text-center bg-light">11:00</p>
-            <p class="border mx-1 col-2 py-3 text-center bg-light">11:30</p>
-            <p class="border mx-1 col-2 py-3 text-center bg-light">12:00</p>
-            <p class="border mx-1 col-2 py-3 text-center bg-light">12:30</p>
-            <p class="border mx-1 col-2 py-3 text-center bg-light">13:00</p>
-            <p class="border mx-1 col-2 py-3 text-center bg-light">13:30</p>
-            <p class="border mx-1 col-2 py-3 text-center bg-light">14:00</p>
-            <p class="border mx-1 col-2 py-3 text-center bg-light">14:30</p>
-            <p class="border mx-1 col-2 py-3 text-center bg-light">15:00</p>
-            <p class="border mx-1 col-2 py-3 text-center bg-light">15:30</p>
-            <p class="border mx-1 col-2 py-3 text-center bg-light">16:00</p>
-            <p class="border mx-1 col-2 py-3 text-center bg-light">16:30</p>
-            <p class="border mx-1 col-2 py-3 text-center bg-light">17:00</p>
-            <p class="border mx-1 col-2 py-3 text-center bg-light">17:30</p>
+        <div id="time-list" class="row g-2">
         </div>
     </div>
 
@@ -72,13 +54,13 @@
         <div class="row">
             <div class="col-md-6">
                 <div class="form-floating">
-                    <input type="text" required class="form-control" name="user_name" placeholder="Your full name">
+                    <input type="text" required class="form-control" id="user_name" name="user_name" placeholder="Your full name">
                     <label for="name">Name</label>
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="form-floating">
-                    <input type="email" required class="form-control" name="user_email" placeholder="name@example.com">
+                    <input type="email" required class="form-control" id="user_email" name="user_email" placeholder="name@example.com">
                     <label for="email">Email address</label>
                 </div>
             </div>
@@ -119,21 +101,93 @@
         document.getElementById("pills-done").classList.add("active","show")
 
     }
-    
+
+    const validation = (el) => {
+        let validation;
+        if (el.id === "pills-date" && !document.querySelector("#date").value){
+            validation = "Please Enter a date"
+        }else if (el.id === "pills-time" && !document.querySelector("#time").value){
+            validation = "Please Enter a time"
+        }else if (el.id === "pills-personal") {
+            if(!document.querySelector("#user_name").value || !document.querySelector("#user_email").value){
+                validation = "Please Enter a user name and an email"
+            } else{
+                return document.querySelector("#bookingForm").submit()
+            }
+        }
+
+        if (validation){
+            return `
+            <div class="alert alert-danger">
+                <strong>${validation}</strong>
+            </div>
+            `
+        }
+    };
+
+
+    const GetAvailableTime = (date) => {
+        fetch('{% url "get_available_time" %}', {
+            method: "POST",
+            credentials: "same-origin",
+            body: JSON.stringify({date}),
+            headers: {
+                "Accept": "application/json",
+                "X-Requested-With": "XMLHttpRequest",
+                "X-CSRFToken": document.querySelector('input[name="csrfmiddlewaretoken"]').value,
+            },
+        })
+            .then((res) => res.json())
+            .then((data) => {
+                let timeList= ""
+                data.time_list.forEach(item=>{
+                    let isTaken = item.is_taken ? "secondary" : "light"
+                    timeList += `
+                    <p class="border mx-1 col-2 py-3 text-center bg-${isTaken}">${item.time}</p>
+                    `
+                })
+                document.querySelector("#time-list").innerHTML = timeList
+                // time functions  START
+                document.querySelectorAll("#pills-time .bg-light").forEach(timeBtn => {
+                    timeBtn.addEventListener("click", timeBtnClicked.bind(this, timeBtn))
+                })
+
+                function timeBtnClicked(item) {
+                    document.querySelectorAll("#pills-time .bg-primary").forEach(item=>{
+                        item.classList.remove("bg-primary","text-white")
+                        item.classList.add("bg-light")
+                    })
+                    item.classList.remove("bg-light")
+                    item.classList.add("bg-primary", "text-white")
+
+                    document.querySelector("#time").value = item.innerHTML
+                }
+                // time functions  END
+            })
+            .catch((err) => {
+                console.log("err in fetch", err);
+            });
+        };
+
+
     // Wizard Steps
     function change_steps(type) {
-        const errors = document.querySelector("#booking-errors");
-        if (errors){
-            errors.remove()
-        }
         let el = document.querySelector(".tab-pane.active")
-        if (el.id === "pills-personal") {
-            return document.querySelector("#bookingForm").submit()
-            
+        const errors = document.querySelector("#booking-errors");
+        
+
+        if (errors){
+            errors.innerHTML = ""
         }
         
         const previous_step = document.getElementById("previous-step")
         if (type === "next") {
+            // validation
+            vl = validation(el)
+            if (vl){
+                errors.innerHTML = vl
+                return
+            }
             if (el.nextElementSibling){
                 previous_step.classList.remove("d-none")
                 el.classList.remove("active","show")
@@ -156,6 +210,8 @@
             progress_bar.innerHTML = "0%"
             previous_step.classList.add("d-none")
         }else if (el.id === "pills-time"){
+            // Fetch available times
+            GetAvailableTime(document.querySelector("#date").value)
             progress_bar.style.width = "30%"
             progress_bar.innerHTML = "30%"
         }else if (el.id === "pills-personal") {
@@ -183,22 +239,7 @@
     })
     // Date Functions END
 
-    // time functions  START
-    document.querySelectorAll("#pills-time .bg-light").forEach(timeBtn => {
-        timeBtn.addEventListener("click", timeBtnClicked.bind(this, timeBtn))
-    })
 
-    function timeBtnClicked(item) {
-        document.querySelectorAll("#pills-time .bg-primary").forEach(item=>{
-            item.classList.remove("bg-primary","text-white")
-            item.classList.add("bg-light")
-        })
-        item.classList.remove("bg-light")
-        item.classList.add("bg-primary", "text-white")
-
-        document.querySelector("#time").value = item.innerHTML
-    }
-    // time functions  END
 
 
     
