@@ -1,20 +1,21 @@
 Configuration
 =============
 
-## Available settings:
+**Available settings:**
 
-BOOKING_TITLE:
-  > Title of create booking page
+``BOOKING_TITLE:``
+    Title of create booking page
 
-BOOKING_DESC
-  > Description of create booking page
+``BOOKING_DESC``
+    Description of create booking page
 
 -----
 
-## Usage:
-add this var to settings.py
+**Usage:**
 
-```python
-BOOKING_TITLE = "Your title"
-BOOKING_DESC = "Your description"
-```
+Add this vars to settings.py
+
+  .. code-block:: python
+
+    BOOKING_TITLE = "Your title"
+    BOOKING_DESC = "Your description"

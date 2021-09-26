@@ -54,6 +54,15 @@ then you can visit the pages::
 - Booking page: http://localhost:8000/booking
 - Admin page: http://localhost:8000/booking/admin
 
+Configuration
+=============
+Add this vars to settings.py
+
+```python
+BOOKING_TITLE = "Your title"
+BOOKING_DESC = "Your description"
+```
+
 Getting Involved
 ================
 Open Source projects can always use more help. Fixing a problem, documenting a feature, adding
