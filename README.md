@@ -58,10 +58,10 @@ Configuration
 =============
 Add this vars to settings.py
 
-```python
-BOOKING_TITLE = "Your title"
-BOOKING_DESC = "Your description"
-```
+  .. code-block:: python
+
+    BOOKING_TITLE = "Your title"
+    BOOKING_DESC = "Your description"
 
 The App
 =======
