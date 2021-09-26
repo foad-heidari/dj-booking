@@ -10,7 +10,7 @@ os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
 
 setup(
     name = 'dj-booking',
-    version = '1.1',
+    version = '1.3',
     description = 'Django Booking is a complete Django booking system as a package.',
     long_description=README,
     long_description_content_type='text/markdown',

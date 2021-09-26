@@ -3,6 +3,8 @@ __pycache__
 *.py[cod]
 *$py.class
 media*/
+test_app/
+manage.py
 # C extensions
 *.so
 

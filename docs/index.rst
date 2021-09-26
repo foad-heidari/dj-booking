@@ -11,6 +11,7 @@ Contents
 
    overview
    installation
+   configuration
 
 
 ==================

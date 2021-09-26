@@ -47,7 +47,7 @@ And include dj_booking to your URLs::
 Using It
 ========
     $ python manage.py migrate
-    $ python mange.py runserver
+    $ python manage.py runserver
 
 then you can visit the pages::
 

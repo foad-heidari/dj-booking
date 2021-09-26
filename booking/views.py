@@ -4,6 +4,7 @@ import json
 from django.contrib import messages
 from django.shortcuts import reverse, redirect, get_object_or_404
 from django.http.response import HttpResponse
+from django.conf import settings
 # from django.contrib.auth.decorators import user_passes_test
 # from django.contrib.auth.mixins import LoginRequiredMixin
 # from django.utils.decorators import method_decorator
@@ -87,12 +88,16 @@ class BookingCreateView(CreateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        title = settings.BOOKING_TITLE if hasattr(settings,"BOOKING_TITLE") else "Booking"
+        description = settings.BOOKING_DESC if hasattr(settings,"BOOKING_DESC") else "Make your appointment easly with us."
+        context["title"] = title
+        context["description"] = description
 
         return context
 
     def get_success_url(self):
         url = reverse("create_booking")
-        return url + "?type=successed"
+        return url + f"?type=successed&booking_id={self.object.id}"
 
 
 def get_available_time(request):
