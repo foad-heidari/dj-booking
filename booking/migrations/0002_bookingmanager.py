@@ -16,7 +16,7 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('booking_enable', models.BooleanField(default=True)),
                 ('confirmation_required', models.BooleanField(default=True)),
-                ('dissable_weekend', models.BooleanField(default=True)),
+                ('disable_weekend', models.BooleanField(default=True)),
                 ('available_booking_months', models.IntegerField(default=1)),
                 ('max_appointment_per_day', models.IntegerField(blank=True, null=True)),
                 ('start_time', models.TimeField()),
