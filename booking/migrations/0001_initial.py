@@ -21,6 +21,7 @@ class Migration(migrations.Migration):
                 ('date', models.DateField()),
                 ('time', models.TimeField()),
                 ('user_name', models.CharField(max_length=250)),
+                ('mobile', models.CharField(max_length=10)),
                 ('user_email', models.EmailField(max_length=254)),
                 ('approved', models.BooleanField(default=False)),
                 ('created_at', models.DateTimeField(auto_now_add=True)),
