@@ -7,6 +7,7 @@
         <th scope="col">Name</th>
         <th scope="col">Date</th>
         <th scope="col">Time</th>
+        <th scope="col">Mobile</th>
         <th scope="col">Email</th>
         {% if full_table %}
           <th scope="col">Created_at</th>
@@ -24,6 +25,7 @@
 
         <td>{{books.user_name}}</td>
         <td>{{books.date}}</td>
+        <td>{{books.mobile}}</td>
         <td>{{books.time}}</td>
         <td>{{books.user_email}}</td>
         {% if full_table %}
@@ -37,7 +39,7 @@
                 {% if not books.approved %}
                   <li><a class="dropdown-item" href="{% url 'booking_update' books.id 'approved' %}">Approve</a></li>
                 {% endif %}
-
+                <li><a class="dropdown-item" href="#">Edit</a></li>
                 <li><a class="dropdown-item" href="{% url 'booking_update' books.id 'delete' %}">Remove</a></li>
               </ul>
             </div>
