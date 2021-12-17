@@ -29,6 +29,7 @@ class Booking(models.Model):
     user_name = models.CharField(max_length=250)
     user_email = models.EmailField()
     approved = models.BooleanField(default=False)
+    user_mobile = models.CharField(blank=True, null=True, max_length=10)
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

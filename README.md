@@ -24,7 +24,7 @@ Python package::
 Installing it
 =============
 
-To enable `dj_booking` in your project you need to add it to `INSTALLED_APPS` in your projects
+To enable `dj-booking` in your project you need to add it to `INSTALLED_APPS` in your projects
 `settings.py` file::
 
     INSTALLED_APPS = (
@@ -33,7 +33,7 @@ To enable `dj_booking` in your project you need to add it to `INSTALLED_APPS` in
         ...
     )
 
-And include dj_booking to your URLs::
+And include dj-booking to your URLs::
     
     from django.urls import path, include
 
@@ -68,11 +68,11 @@ The App
 
 - booking page
 
-  ![booking page](https://github.com/foad-heidari/dj_booking/blob/main/docs/img/1.png?raw=true)
+  ![booking page](https://github.com/foad-heidari/dj-booking/blob/main/docs/img/1.png?raw=true)
 
 - Admin Page
 
-  ![booking page](https://github.com/foad-heidari/dj_booking/blob/main/docs/img/2.png?raw=true)
+  ![booking page](https://github.com/foad-heidari/dj-booking/blob/main/docs/img/2.png?raw=true)
   
 
 Getting Involved

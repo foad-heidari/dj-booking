@@ -96,7 +96,7 @@ class BookingCreateView(CreateView):
         return context
 
     def get_success_url(self):
-        url = reverse("create_booking")
+        url = settings.SUCCESS_BOOKING_REDIRECT_URL if hasattr(settings,"SUCCESS_BOOKING_REDIRECT_URL") else reverse("create_booking")
         return url + f"?type=successed&booking_id={self.object.id}"
 
 

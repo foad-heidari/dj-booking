@@ -25,8 +25,8 @@
 
         <td>{{books.user_name}}</td>
         <td>{{books.date}}</td>
-        <td>{{books.mobile}}</td>
         <td>{{books.time}}</td>
+        <td>{{books.user_mobile|default:""}}</td>
         <td>{{books.user_email}}</td>
         {% if full_table %}
           <td>{{books.created_at}}</td>

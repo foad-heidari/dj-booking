@@ -13,16 +13,16 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='BookingManager',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('booking_enable', models.BooleanField(default=True)),
                 ('confirmation_required', models.BooleanField(default=True)),
                 ('disable_weekend', models.BooleanField(default=True)),
-                ('available_booking_months', models.IntegerField(default=1)),
+                ('available_booking_months', models.IntegerField(default=1, help_text='if 2, user can only book appointment for next two months.')),
                 ('max_appointment_per_day', models.IntegerField(blank=True, null=True)),
                 ('start_time', models.TimeField()),
                 ('end_time', models.TimeField()),
-                ('period_of_each_booking', models.CharField(choices=[('5', '5M'), ('10', '10M'), ('15', '15M'), ('20', '20M'), ('25', '25M'), ('30', '30M'), ('35', '35M'), ('40', '40M'), ('45', '45M'), ('60', '1H'), ('75', '1H 15M'), ('90', '1H 30M'), ('105', '1H 45M'), ('120', '2H'), ('150', '2H 30M'), ('180', '3H')], default='30', max_length=3)),
-                ('max_appointment_per_time', models.IntegerField(default=1)),
+                ('period_of_each_booking', models.CharField(choices=[('5', '5M'), ('10', '10M'), ('15', '15M'), ('20', '20M'), ('25', '25M'), ('30', '30M'), ('35', '35M'), ('40', '40M'), ('45', '45M'), ('60', '1H'), ('75', '1H 15M'), ('90', '1H 30M'), ('105', '1H 45M'), ('120', '2H'), ('150', '2H 30M'), ('180', '3H')], default='30', help_text='How long each appointment take.', max_length=3)),
+                ('max_appointment_per_time', models.IntegerField(default=1, help_text='how much appointment can be book for each time.')),
             ],
         ),
     ]

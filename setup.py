@@ -20,7 +20,7 @@ setup(
     license = 'MIT',
     maintainer = 'Foad',
     maintainer_email = 'foad.haydri.1377@gmail.com',
-    keywords = 'django booking appointment appointment-booking booking-system appointment-system doctor-appointment-booking',
+    keywords = 'django booking appointment appointment-booking booking-system appointment-system doctor-appointment-booking django-appointment django-booking',
     packages=find_packages(),
     include_package_data=True,
 

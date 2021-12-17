@@ -1,12 +1,12 @@
 Installation
 ============
 
-dj_booking
+dj-booking
 ------
 
 Python package::
 
-    pip install dj_booking
+    pip install dj-booking
 
 settings.py ::
 

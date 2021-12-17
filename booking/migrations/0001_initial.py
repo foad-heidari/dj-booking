@@ -17,11 +17,11 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Booking',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('date', models.DateField()),
                 ('time', models.TimeField()),
                 ('user_name', models.CharField(max_length=250)),
-                ('mobile', models.CharField(max_length=10)),
+                ('user_mobile', models.CharField(blank=True, max_length=10, null=True)),
                 ('user_email', models.EmailField(max_length=254)),
                 ('approved', models.BooleanField(default=False)),
                 ('created_at', models.DateTimeField(auto_now_add=True)),

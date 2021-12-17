@@ -4,7 +4,7 @@ from django import forms
 class BookingForm(forms.ModelForm):
     class Meta:
         model = Booking
-        fields  = ["time", "date", "user_name", "user_email"]
+        fields  = ["time", "date", "user_mobile", "user_name", "user_email"]
 
         
 class BookingManagerForm(forms.ModelForm):

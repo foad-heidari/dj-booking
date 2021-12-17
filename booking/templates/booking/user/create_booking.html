@@ -27,7 +27,7 @@
             <div class="col-md-6">
                 <div class="form-floating">
                     <input type="text" required class="form-control" name="date" id="date" placeholder="DD/MM/YYYY">
-                    <label for="date">Date</label>
+                    <label for="date">Date *</label>
                 </div>
             </div>
         </div>
@@ -55,19 +55,19 @@
             <div class="col-md-6">
                 <div class="form-floating">
                     <input type="text" required class="form-control" id="user_name" name="user_name" placeholder="Your full name">
-                    <label for="name">Name</label>
+                    <label for="name">Name *</label>
                 </div>
             </div>
-            <div class="col-md-3">
-                <div class="form-floating">
-                    <input type="text" required class="form-control" id="mobile" name="mobile" placeholder="Mobilnummer">
-                    <label for="mobile">Mobilenumber</label>
-                </div>
-            </div>
-            <div class="col-md-3">
+            <div class="col-md-6">
                 <div class="form-floating">
                     <input type="email" required class="form-control" id="user_email" name="user_email" placeholder="name@example.com">
-                    <label for="email">Email address</label>
+                    <label for="email">Email address *</label>
+                </div>
+            </div>
+            <div class="col-md-6 mt-3">
+                <div class="form-floating">
+                    <input type="text" maxlength="10" placeholder="Mobilenumber" class="form-control" id="user_mobile" name="user_mobile">
+                    <label for="user_mobile">Mobilenumber</label>
                 </div>
             </div>
         </div>
@@ -116,7 +116,10 @@
         }else if (el.id === "pills-time" && !document.querySelector("#time").value){
             validation = "Please Enter a time"
         }else if (el.id === "pills-personal") {
-            if(!document.querySelector("#user_name").value || !document.querySelector("#user_email").value){
+            if(document.querySelector("#user_mobile").value && !document.querySelector("#user_mobile").value.match(/^\d{10}$/)){
+                validation = "Please Enter a Valid Phone number" 
+            }
+            else if(!document.querySelector("#user_name").value || !document.querySelector("#user_email").value){
                 validation = "Please Enter a user name and an email"
             } else{
                 return document.querySelector("#bookingForm").submit()
