@@ -88,17 +88,22 @@ class BookingCreateView(CreateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        title = settings.BOOKING_TITLE if hasattr(settings, "BOOKING_TITLE") else "Booking"
-        description = settings.BOOKING_DESC if hasattr(settings, "BOOKING_DESC") else "Make your appointment easly with us."
+        title = settings.BOOKING_TITLE if hasattr(
+            settings, "BOOKING_TITLE") else "Booking"
+        description = settings.BOOKING_DESC if hasattr(
+            settings, "BOOKING_DESC") else "Make your appointment easly with us."
         context["title"] = title
         context["description"] = description
-        context["booking_bg"] = settings.BOOKING_BG if hasattr(settings, "BOOKING_BG") else "img/booking_bg.jpg"
+        context["booking_bg"] = settings.BOOKING_BG if hasattr(
+            settings, "BOOKING_BG") else "img/booking_bg.jpg"
 
         return context
 
     def get_success_url(self):
-        url = settings.SUCCESS_BOOKING_REDIRECT_URL if hasattr(settings,"SUCCESS_BOOKING_REDIRECT_URL") else reverse("create_booking")
-        return url + f"?type=successed&booking_id={self.object.id}"
+        url = settings.BOOKING_SUCCESS_REDIRECT_URL \
+            if hasattr(settings, "BOOKING_SUCCESS_REDIRECT_URL") \
+            else reverse("create_booking") + f"?type=successed&booking_id={self.object.id}"
+        return url
 
 
 def get_available_time(request):
@@ -107,7 +112,8 @@ def get_available_time(request):
 
         b_manager = BookingManager.objects.first()
         if not b_manager:
-            b_manager = BookingManager.objects.create(start_time="09:00", end_time="17:00")
+            b_manager = BookingManager.objects.create(
+                start_time="09:00", end_time="17:00")
         existing_bookings = Booking.objects.filter(
             date=post_data["date"]).values_list('time')
         next_time = b_manager.start_time
