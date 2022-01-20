@@ -62,6 +62,7 @@ Add this vars to settings.py
 
     BOOKING_TITLE = "Your title"
     BOOKING_DESC = "Your description"
+    BOOKING_BG = "img/booking_bg.jpg"
 
 Getting Involved
 ================

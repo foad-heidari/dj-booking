@@ -88,10 +88,11 @@ class BookingCreateView(CreateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        title = settings.BOOKING_TITLE if hasattr(settings,"BOOKING_TITLE") else "Booking"
-        description = settings.BOOKING_DESC if hasattr(settings,"BOOKING_DESC") else "Make your appointment easly with us."
+        title = settings.BOOKING_TITLE if hasattr(settings, "BOOKING_TITLE") else "Booking"
+        description = settings.BOOKING_DESC if hasattr(settings, "BOOKING_DESC") else "Make your appointment easly with us."
         context["title"] = title
         context["description"] = description
+        context["booking_bg"] = settings.BOOKING_BG if hasattr(settings, "BOOKING_BG") else "img/booking_bg.jpg"
 
         return context
 

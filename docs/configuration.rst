@@ -9,6 +9,9 @@ Configuration
 ``BOOKING_DESC``
     Description of create booking page
 
+``BOOKING_BG``
+    Background image of create booking page
+
 -----
 
 **Usage:**
@@ -19,3 +22,4 @@ Add this vars to settings.py
 
     BOOKING_TITLE = "Your title"
     BOOKING_DESC = "Your description"
+    BOOKING_BG = "img/booking_bg.jpg"
