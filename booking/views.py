@@ -97,7 +97,19 @@ class BookingCreateView(CreateView):
         context["booking_bg"] = settings.BOOKING_BG if hasattr(
             settings, "BOOKING_BG") else "img/booking_bg.jpg"
 
+        context["b_manager"] = BookingManager.objects.first()
         return context
+    
+    def get(self, request, *args, **kwargs):
+        b_manager = BookingManager.objects.first()
+        if not b_manager:
+            b_manager = BookingManager.objects.create(
+                start_time="09:00", end_time="17:00")
+        if not b_manager.booking_enable:
+            booking_disable_url = settings.BOOKING_DISABLE_URL if hasattr(
+                settings, "BOOKING_DISABLE_URL") else "/"
+            return redirect(booking_disable_url)
+        return super().get(request, *args, **kwargs)
 
     def get_success_url(self):
         url = settings.BOOKING_SUCCESS_REDIRECT_URL \
@@ -111,9 +123,6 @@ def get_available_time(request):
         post_data = json.loads(request.body.decode("utf-8"))
 
         b_manager = BookingManager.objects.first()
-        if not b_manager:
-            b_manager = BookingManager.objects.create(
-                start_time="09:00", end_time="17:00")
         existing_bookings = Booking.objects.filter(
             date=post_data["date"]).values_list('time')
         next_time = b_manager.start_time

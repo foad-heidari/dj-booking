@@ -63,7 +63,9 @@ Add this vars to settings.py
     BOOKING_TITLE = "Your title"
     BOOKING_DESC = "Your description"
     BOOKING_BG = "img/booking_bg.jpg"
-    BOOKING_SUCCESS_REDIRECT_URL = "success redirect url"
+
+    BOOKING_SUCCESS_REDIRECT_URL = "Success redirect url"
+    BOOKING_DISABLE_URL = "Redirect to this url if create booking is disable"
 
 The App
 =======

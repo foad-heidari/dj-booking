@@ -33,13 +33,12 @@
           <td class="d-flex">
 
             <div class="col dropdown">
-              <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+              <button class="btn btn-secondary btn-sm dropdown-toggle p-0 pe-1" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
               </button>
               <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
                 {% if not books.approved %}
                   <li><a class="dropdown-item" href="{% url 'booking_update' books.id 'approved' %}">Approve</a></li>
                 {% endif %}
-                <li><a class="dropdown-item" href="#">Edit</a></li>
                 <li><a class="dropdown-item" href="{% url 'booking_update' books.id 'delete' %}">Remove</a></li>
               </ul>
             </div>
