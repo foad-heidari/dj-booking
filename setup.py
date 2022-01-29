@@ -7,27 +7,32 @@ with open(os.path.join(os.path.dirname(__file__), 'README.rst')) as readme:
 # allow setup.py to be run from any path
 os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
 
+requirements = []
+with open("requirements.txt", "r") as fh:
+    requirements.append(fh.readlines())
 
 setup(
-    name = 'dj-booking',
-    version = '1.5',
-    description = 'Django Booking is a complete Django booking system as a package.',
+    name='dj-booking',
+    version='1.5',
+    description='Django Booking is a complete Django booking system as a package.',
     long_description=README,
     long_description_content_type='text/markdown',
-    url = 'https://github.com/foad-heidari/dj-booking',
-    author = 'Foad',
-    author_email = 'foad.haydri.1377@gmail.com',
-    license = 'MIT',
-    maintainer = 'Foad',
-    maintainer_email = 'foad.haydri.1377@gmail.com',
-    keywords = 'django booking appointment appointment-booking booking-system appointment-system doctor-appointment-booking django-appointment django-booking',
+    url='https://github.com/foad-heidari/dj-booking',
+    author='Foad',
+    author_email='foad.haydri.1377@gmail.com',
+    license='MIT',
+    maintainer='Foad',
+    maintainer_email='foad.haydri.1377@gmail.com',
+    keywords='django booking appointment appointment-booking booking-system appointment-system doctor-appointment-booking django-appointment django-booking',
     packages=find_packages(),
     include_package_data=True,
-
+    install_requires=requirements,
     classifiers=[
         'Environment :: Web Environment',
         'Framework :: Django',
-        'Framework :: Django :: 1.11',
+        'Framework :: Django :: 2',
+        'Framework :: Django :: 3',
+        'Framework :: Django :: 4',
         'Intended Audience :: Developers',
         'License :: OSI Approved :: MIT License',
         'Operating System :: OS Independent',
@@ -43,5 +48,3 @@ setup(
         'Topic :: Software Development :: Libraries :: Python Modules',
     ],
 )
-
-
