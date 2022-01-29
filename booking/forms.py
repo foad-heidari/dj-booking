@@ -2,28 +2,7 @@ from booking.models import Booking, BookingManager
 from django import forms
 
 
-class BookingForm(forms.ModelForm):
-    class Meta:
-        model = Booking
-        fields = ["time", "date", "user_mobile", "user_name", "user_email"]
-
-    def save(self, commit=True):
-        instance = super().save(commit=False)
-
-        # Approve the booking if confirmation_required is False
-        b_manager = BookingManager.objects.first()
-        if not b_manager.confirmation_required:
-            instance.approved = True
-
-        if commit:
-            instance.save()
-        return instance
-
-
-class BookingManagerForm(forms.ModelForm):
-    start_time = forms.TimeField(widget=forms.TimeInput(format='%H:%M'))
-    end_time = forms.TimeField(widget=forms.TimeInput(format='%H:%M'))
-
+class ChangeInputsStyle(forms.Form):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         # add common css classes to all widgets
@@ -32,12 +11,31 @@ class BookingManagerForm(forms.ModelForm):
             input_type = self.fields[field].widget.input_type
             classes = self.fields[field].widget.attrs.get("class")
             if classes is not None:
-                classes += " form-check-input" if input_type == "checkbox" else " form-control"
+                classes += " form-check-input" if input_type == "checkbox" else " form-control  flatpickr-input"
             else:
-                classes = " form-check-input" if input_type == "checkbox" else " form-control"
+                classes = " form-check-input" if input_type == "checkbox" else " form-control flatpickr-input"
             self.fields[field].widget.attrs.update({
                 'class': classes
             })
+
+
+class BookingDateForm(ChangeInputsStyle):
+    date = forms.DateField(required=True)
+
+
+class BookingTimeForm(ChangeInputsStyle):
+    time = forms.TimeField(widget=forms.HiddenInput())
+
+
+class BookingCustomerForm(ChangeInputsStyle):
+    user_name = forms.CharField(max_length=250)
+    user_email = forms.EmailField()
+    user_mobile = forms.CharField(required=False, max_length=10)
+
+
+class BookingManagerForm(ChangeInputsStyle, forms.ModelForm):
+    start_time = forms.TimeField(widget=forms.TimeInput(format='%H:%M'))
+    end_time = forms.TimeField(widget=forms.TimeInput(format='%H:%M'))
 
     class Meta:
         model = BookingManager

@@ -13,12 +13,9 @@
 
 	<!-- Google font -->
 	<link href="https://fonts.googleapis.com/css?family=Lato:400,700" rel="stylesheet">
-
 	<!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-
 	<!-- Custom stlylesheet -->
-
 	<link type="text/css" rel="stylesheet" href="{% static 'css/style.css' %}" />
 
     {% block extra_css %}
@@ -40,7 +37,7 @@
 						<div class="booking-form">
                             <!-- progress START -->
                             <div class="progress mb-4">
-                                <div class="progress-bar" role="progressbar" style="width: 6%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">0%</div>
+                                <div class="progress-bar" role="progressbar" style="width:{{progress_width}}%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">{{progress_width}}%</div>
                             </div>
                             <!-- progress END -->
 							<form method="POST" id="bookingForm">
@@ -53,9 +50,11 @@
                                 <!-- tabs END -->
                                 {% block buttons %}
                                     <div class="form-btn d-flex mt-4">
-                                        <button type="button" onclick="change_steps('previous')" id="previous-step" class="btn btn-outline-secondary d-none">previous step</button>
-                                        <button type="button" onclick="change_steps('next')" id="next-step"  class="btn btn-primary border-0 text-uppercase ml-auto">Next step</button>
-                                        <a href="{% url 'create_booking' %}" id="make-new-app" class="btn btn-primary mx-auto d-none">Make another appointment</a>
+                                        {% if wizard.steps.prev %}
+                                            <button class="btn btn-outline-secondary" name="wizard_goto_step" formnovalidate type="submit" value="{{ wizard.steps.prev }}">previous step</button>
+                                        {% endif %}
+                                        <input type="submit" class="btn btn-primary border-0 text-uppercase ml-auto" value="Next step"/>
+
                                     </div>
                                 {% endblock buttons %}
 							</form>

@@ -107,4 +107,8 @@ a:hover {
   cursor: pointer;
 }
 
+.form-floating.errorlist{
+	display: None;
+}
+
 /*# sourceMappingURL=style.css.map */
