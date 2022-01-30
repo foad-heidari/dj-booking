@@ -1,45 +1,19 @@
 {% extends 'booking/base.html' %}
 
 {% block content %}
-    <h2 class="text-black-50 my-4">Appointments</h2>
-    <hr>
+<h2 class="text-black-50 my-4">Appointments</h2>
+<hr>
 
-    <div class="btn-group btn-group-sm" role="group" aria-label="Basic radio toggle button group">
-        <input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off" checked>
-        <label class="btn btn-outline-primary" for="btnradio1">Upcoming</label>
-      
-        <input type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off">
-        <label class="btn btn-outline-primary" for="btnradio2">Not approved</label>
-      
-        <input type="radio" class="btn-check" name="btnradio" id="btnradio3" autocomplete="off">
-        <label class="btn btn-outline-primary" for="btnradio3">Newst</label>
-      </div>
-
-    <div class="row mt-1">
-        <!-- last witing appontments tabel START -->
-        <div style="min-height: 200px;" class="my-2">
-            {% include 'booking/admin/components/appointment_tabel.html' with bookings=object_list full_table=True %}
-        </div>
-        <!-- last witing appontments tabel END -->
-
+<div class="row mt-1">
+    <!-- last witing appontments tabel START -->
+    <div style="min-height: 200px;" class="my-2">
+        {% include 'booking/admin/components/appointment_tabel.html' with bookings=object_list full_table=True %}
     </div>
+    <!-- last witing appontments tabel END -->
 
+</div>
+
+{% include "booking/admin/components/pagination.html" %}
     
-    <nav class="mx-auto" aria-label="Page navigation example">
-        <ul class="pagination  justify-content-center">
-          <li class="page-item">
-            <a class="page-link" href="#" aria-label="Previous">
-              <span aria-hidden="true">&laquo;</span>
-            </a>
-          </li>
-          <li class="page-item active"><a class="page-link" href="#">1</a></li>
-          <li class="page-item"><a class="page-link" href="#">2</a></li>
-          <li class="page-item"><a class="page-link" href="#">3</a></li>
-          <li class="page-item">
-            <a class="page-link" href="#" aria-label="Next">
-              <span aria-hidden="true">&raquo;</span>
-            </a>
-          </li>
-        </ul>
-      </nav>
+
 {% endblock content %}

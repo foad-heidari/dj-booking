@@ -7,6 +7,8 @@ from django.views.generic import TemplateView, ListView, UpdateView
 
 from booking.models import Booking, BookingManager
 from booking.forms import BookingCustomerForm, BookingDateForm, BookingTimeForm, BookingManagerForm
+from booking.settings import (BOOKING_BG, BOOKING_DESC, BOOKING_DISABLE_URL,
+                              BOOKING_SUCCESS_REDIRECT_URL, BOOKING_TITLE, PAGINATION)
 
 
 # # # # # # #
@@ -26,11 +28,9 @@ class AdminHomeView(TemplateView):
 
 
 class BookingListView(ListView):
-    form_class = Booking
+    model = Booking
     template_name = "booking/admin/appointment_list.html"
-
-    def get_queryset(self):
-        return Booking.objects.filter()[:20]
+    paginate_by = PAGINATION
 
 
 # @method_decorator(user_passes_test(lambda u: u.is_superuser), name='dispatch')
@@ -39,11 +39,7 @@ class BookingSettingsView(UpdateView):
     template_name = "booking/admin/appointment_settings.html"
 
     def get_object(self):
-        obj = BookingManager.objects.filter()
-        if obj.exists():
-            return obj[0]
-        else:
-            return BookingManager.objects.create(start_time="09:00", end_time="17:00")
+        return BookingManager.objects.filter().first()
 
     def get_success_url(self):
         return reverse("booking_settings")
@@ -83,7 +79,11 @@ class BookingCreateWizardView(SessionWizardView):
         context = super().get_context_data(form=form, **kwargs)
         context.update({
             'b_manager': BookingManager.objects.first(),
-            "progress_width": "6"
+            "progress_width": "6",
+            "booking_bg": BOOKING_BG,
+            "description": BOOKING_DESC,
+            "title": BOOKING_TITLE
+
         })
         if self.steps.current == 'Time':
             context.update({
@@ -96,55 +96,36 @@ class BookingCreateWizardView(SessionWizardView):
             })
         return context
 
+    def render(self, form=None, **kwargs):
+        # Check if Booking is Disable
+        form = form or self.get_form()
+        context = self.get_context_data(form=form, **kwargs)
+
+        if not context["b_manager"].booking_enable:
+            return redirect(BOOKING_DISABLE_URL if BOOKING_DISABLE_URL else "/")
+
+        return self.render_to_response(context)
+
     def done(self, form_list, **kwargs):
-        data = dict((k, v) for form in form_list for k, v in form.cleaned_data.items())
+        data = dict((k, v) for form in form_list for k,
+                    v in form.cleaned_data.items())
         booking = Booking.objects.create(**data)
+
+        if BOOKING_SUCCESS_REDIRECT_URL:
+            return redirect(BOOKING_SUCCESS_REDIRECT_URL)
+
         return render(self.request, 'booking/user/booking_done.html', {
             "progress_width": "100",
             "booking_id": booking.id
         })
 
 
-# class BookingCreateView(CreateView):
-#     form_class = BookingForm
-#     template_name = "booking/user/create_booking.html"
-
-#     def get_context_data(self, **kwargs):
-#         context = super().get_context_data(**kwargs)
-#         title = settings.BOOKING_TITLE if hasattr(
-#             settings, "BOOKING_TITLE") else "Booking"
-#         description = settings.BOOKING_DESC if hasattr(
-#             settings, "BOOKING_DESC") else "Make your appointment easly with us."
-#         context["title"] = title
-#         context["description"] = description
-#         context["booking_bg"] = settings.BOOKING_BG if hasattr(
-#             settings, "BOOKING_BG") else "img/booking_bg.jpg"
-
-#         context["b_manager"] = BookingManager.objects.first()
-#         return context
-
-#     def get(self, request, *args, **kwargs):
-#         b_manager = BookingManager.objects.first()
-#         if not b_manager:
-#             b_manager = BookingManager.objects.create(
-#                 start_time="09:00", end_time="17:00")
-#         if not b_manager.booking_enable:
-#             booking_disable_url = settings.BOOKING_DISABLE_URL if hasattr(
-#                 settings, "BOOKING_DISABLE_URL") else "/"
-#             return redirect(booking_disable_url)
-#         return super().get(request, *args, **kwargs)
-
-#     def get_success_url(self):
-#         url = settings.BOOKING_SUCCESS_REDIRECT_URL \
-#             if hasattr(settings, "BOOKING_SUCCESS_REDIRECT_URL") \
-#             else reverse("create_booking") + f"?type=successed&booking_id={self.object.id}"
-#         return url
-
 def add_delta(tme, delta):
     # transform to a full datetime first
     return (datetime.datetime.combine(
         datetime.date.today(), tme
     ) + delta).time()
+
 
 def get_available_time(date):
     b_manager = BookingManager.objects.first()

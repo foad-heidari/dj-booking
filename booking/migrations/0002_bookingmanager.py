@@ -3,6 +3,18 @@
 from django.db import migrations, models
 
 
+
+def forwards_func(apps, schema_editor):
+    BookingManager = apps.get_model("booking", "BookingManager")
+    db_alias = schema_editor.connection.alias
+    BookingManager.objects.using(db_alias).create(start_time="09:00", end_time="17:00")
+
+def reverse_func(apps, schema_editor):
+    # remove the object we created on forwards_func
+    BookingManager = apps.get_model("booking", "BookingManager")
+    db_alias = schema_editor.connection.alias
+    BookingManager.objects.using(db_alias).filter(start_time="09:00", end_time="17:00").delete()
+
 class Migration(migrations.Migration):
 
     dependencies = [
@@ -25,4 +37,6 @@ class Migration(migrations.Migration):
                 ('max_appointment_per_time', models.IntegerField(default=1, help_text='how much appointment can be book for each time.')),
             ],
         ),
+        # Create base booking_settings for first time
+        migrations.RunPython(forwards_func, reverse_func),
     ]
