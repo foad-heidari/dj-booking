@@ -22,7 +22,7 @@ class TestBookingCreateForms(TestCase):
         validated = form.is_valid()
         self.assertTrue(validated)
 
-        # Test the date validation
+        # Test the validation
         self.data["date"] = "08:00"
         form = BookingDateForm(data=self.data)
         validated = form.is_valid()
@@ -44,7 +44,7 @@ class TestBookingCreateForms(TestCase):
         validated = form.is_valid()
         self.assertTrue(validated)
 
-        # Test the date validation
+        # Test the validation
         self.data["time"] = "asd"
         form = BookingTimeForm(data=self.data)
         validated = form.is_valid()
@@ -65,7 +65,7 @@ class TestBookingCreateForms(TestCase):
         validated = form.is_valid()
         self.assertTrue(validated)
 
-        # Test the date validation
+        # Test the validation
         self.data["user_email"] = "asd"
         form = BookingCustomerForm(data=self.data)
         validated = form.is_valid()
@@ -105,7 +105,7 @@ class TestBookingSettingsForm(TestCase):
         validated = form.is_valid()
         self.assertTrue(validated)
 
-        # Test the time validation
+        # Test the validation
         data["end_time"] = "08:00"
         form = BookingSettingsForm(data=data)
         validated = form.is_valid()
