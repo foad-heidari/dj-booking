@@ -6,15 +6,16 @@ from booking.forms import (BookingCustomerForm, BookingDateForm,
                            BookingSettingsForm, BookingTimeForm)
 
 
-class TestBookingCreateForms(TestCase):
-    now = datetime.datetime.now()
-    data = {
-        "date": (now + datetime.timedelta(days=1)).strftime("%Y-%m-%d"),
+DEMO_BOOKING_DATA = {
+        "date": (datetime.datetime.now() + datetime.timedelta(days=1)).strftime("%Y-%m-%d"),
         "time": "12:00",
         "user_name": "test_user",
         "user_email": "user@email.com",
         "user_mobile": ""
     }
+
+class TestBookingCreateForms(TestCase):
+    data = DEMO_BOOKING_DATA
 
     def test_date_form(self):
         # Test the valid form
