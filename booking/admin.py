@@ -1,8 +1,8 @@
-from booking.models import Booking, BookingManager
+from booking.models import Booking, BookingSettings
 from django.contrib import admin
 
 
 admin.site.register(Booking)
-# TODO: remove BookingManager
-admin.site.register(BookingManager)
+# TODO: remove BookingSettings
+admin.site.register(BookingSettings)
 

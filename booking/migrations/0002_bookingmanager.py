@@ -5,15 +5,15 @@ from django.db import migrations, models
 
 
 def forwards_func(apps, schema_editor):
-    BookingManager = apps.get_model("booking", "BookingManager")
+    BookingSettings = apps.get_model("booking", "BookingSettings")
     db_alias = schema_editor.connection.alias
-    BookingManager.objects.using(db_alias).create(start_time="09:00", end_time="17:00")
+    BookingSettings.objects.using(db_alias).create(start_time="09:00", end_time="17:00")
 
 def reverse_func(apps, schema_editor):
     # remove the object we created on forwards_func
-    BookingManager = apps.get_model("booking", "BookingManager")
+    BookingSettings = apps.get_model("booking", "BookingSettings")
     db_alias = schema_editor.connection.alias
-    BookingManager.objects.using(db_alias).filter(start_time="09:00", end_time="17:00").delete()
+    BookingSettings.objects.using(db_alias).filter(start_time="09:00", end_time="17:00").delete()
 
 class Migration(migrations.Migration):
 
@@ -23,7 +23,7 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name='BookingManager',
+            name='BookingSettings',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('booking_enable', models.BooleanField(default=True)),

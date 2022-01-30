@@ -39,7 +39,7 @@ class Booking(models.Model):
         return self.user_name or "(No Name)"
 
 
-class BookingManager(models.Model):
+class BookingSettings(models.Model):
     # General
     booking_enable = models.BooleanField(default=True)
     confirmation_required = models.BooleanField(default=True)

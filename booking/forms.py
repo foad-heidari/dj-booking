@@ -1,4 +1,4 @@
-from booking.models import Booking, BookingManager
+from booking.models import Booking, BookingSettings
 from django import forms
 
 
@@ -33,12 +33,12 @@ class BookingCustomerForm(ChangeInputsStyle):
     user_mobile = forms.CharField(required=False, max_length=10)
 
 
-class BookingManagerForm(ChangeInputsStyle, forms.ModelForm):
+class BookingSettingsForm(ChangeInputsStyle, forms.ModelForm):
     start_time = forms.TimeField(widget=forms.TimeInput(format='%H:%M'))
     end_time = forms.TimeField(widget=forms.TimeInput(format='%H:%M'))
 
     class Meta:
-        model = BookingManager
+        model = BookingSettings
         fields = "__all__"
         exclude = [
             # TODO: Add this fields to admin panel and fix the functions

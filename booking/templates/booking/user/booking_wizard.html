@@ -16,8 +16,8 @@
 {% block steps %}
 {% include 'booking/admin/components/show_errors.html' %}
 
-<input type="hidden" id="available_booking_months" value="{{b_manager.available_booking_months}}" />
-<input type="hidden" id="disable_weekend" value="{{b_manager.disable_weekend}}" />
+<input type="hidden" id="available_booking_months" value="{{booking_settings.available_booking_months}}" />
+<input type="hidden" id="disable_weekend" value="{{booking_settings.disable_weekend}}" />
 
 <!-- steps START -->
 <div class="tab-pane fade show active" id="pills-date" role="tabpanel" aria-labelledby="pills-date-tab">

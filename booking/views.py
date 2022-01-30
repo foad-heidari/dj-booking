@@ -5,8 +5,8 @@ from django.contrib import messages
 from django.shortcuts import render, reverse, redirect, get_object_or_404
 from django.views.generic import TemplateView, ListView, UpdateView
 
-from booking.models import Booking, BookingManager
-from booking.forms import BookingCustomerForm, BookingDateForm, BookingTimeForm, BookingManagerForm
+from booking.models import Booking, BookingSettings
+from booking.forms import BookingCustomerForm, BookingDateForm, BookingTimeForm, BookingSettingsForm
 from booking.settings import (BOOKING_BG, BOOKING_DESC, BOOKING_DISABLE_URL,
                               BOOKING_SUCCESS_REDIRECT_URL, BOOKING_TITLE, PAGINATION)
 
@@ -35,11 +35,11 @@ class BookingListView(ListView):
 
 # @method_decorator(user_passes_test(lambda u: u.is_superuser), name='dispatch')
 class BookingSettingsView(UpdateView):
-    form_class = BookingManagerForm
+    form_class = BookingSettingsForm
     template_name = "booking/admin/appointment_settings.html"
 
     def get_object(self):
-        return BookingManager.objects.filter().first()
+        return BookingSettings.objects.filter().first()
 
     def get_success_url(self):
         return reverse("booking_settings")
@@ -78,7 +78,7 @@ class BookingCreateWizardView(SessionWizardView):
     def get_context_data(self, form, **kwargs):
         context = super().get_context_data(form=form, **kwargs)
         context.update({
-            'b_manager': BookingManager.objects.first(),
+            'booking_settings': BookingSettings.objects.first(),
             "progress_width": "6",
             "booking_bg": BOOKING_BG,
             "description": BOOKING_DESC,
@@ -101,7 +101,7 @@ class BookingCreateWizardView(SessionWizardView):
         form = form or self.get_form()
         context = self.get_context_data(form=form, **kwargs)
 
-        if not context["b_manager"].booking_enable:
+        if not context["booking_settings"].booking_enable:
             return redirect(BOOKING_DISABLE_URL if BOOKING_DISABLE_URL else "/")
 
         return self.render_to_response(context)
@@ -128,19 +128,19 @@ def add_delta(tme, delta):
 
 
 def get_available_time(date):
-    b_manager = BookingManager.objects.first()
+    booking_settings = BookingSettings.objects.first()
     existing_bookings = Booking.objects.filter(
         date=date).values_list('time')
 
-    next_time = b_manager.start_time
+    next_time = booking_settings.start_time
     time_list = []
     while True:
         is_taken = any([x[0] == next_time for x in existing_bookings])
         time_list.append(
             {"time": ":".join(str(next_time).split(":")[:-1]), "is_taken": is_taken})
         next_time = add_delta(next_time, datetime.timedelta(
-            minutes=int(b_manager.period_of_each_booking)))
-        if next_time > b_manager.end_time:
+            minutes=int(booking_settings.period_of_each_booking)))
+        if next_time > booking_settings.end_time:
             break
 
     return time_list
