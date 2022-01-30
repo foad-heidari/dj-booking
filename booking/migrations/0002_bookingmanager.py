@@ -3,7 +3,6 @@
 from django.db import migrations, models
 
 
-
 def forwards_func(apps, schema_editor):
     BookingSettings = apps.get_model("booking", "BookingSettings")
     db_alias = schema_editor.connection.alias

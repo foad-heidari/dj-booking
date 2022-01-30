@@ -1,5 +1,6 @@
-from booking.models import Booking, BookingSettings
 from django import forms
+
+from booking.models import BookingSettings
 
 
 class ChangeInputsStyle(forms.Form):

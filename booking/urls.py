@@ -1,7 +1,7 @@
 from django.urls import path
 
-from .views import BookingCreateWizardView, AdminHomeView, BookingListView, BookingSettingsView, bookingUpdateView, get_available_time
-
+from .views import (AdminHomeView, BookingCreateWizardView, BookingListView,
+                    BookingSettingsView, bookingUpdateView, get_available_time)
 
 urlpatterns = [
     path("", BookingCreateWizardView.as_view(), name="create_booking"),

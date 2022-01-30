@@ -1,20 +1,26 @@
 import datetime
+from typing import Dict, List
 
-from formtools.wizard.views import SessionWizardView
 from django.contrib import messages
-from django.shortcuts import render, reverse, redirect, get_object_or_404
-from django.views.generic import TemplateView, ListView, UpdateView
+from django.contrib.admin.views.decorators import staff_member_required
+from django.shortcuts import get_object_or_404, redirect, render, reverse
+from django.views.decorators.http import require_http_methods
+from django.views.generic import ListView, TemplateView, UpdateView
+from formtools.wizard.views import SessionWizardView
 
+from booking.forms import (BookingCustomerForm, BookingDateForm,
+                           BookingSettingsForm, BookingTimeForm)
 from booking.models import Booking, BookingSettings
-from booking.forms import BookingCustomerForm, BookingDateForm, BookingTimeForm, BookingSettingsForm
 from booking.settings import (BOOKING_BG, BOOKING_DESC, BOOKING_DISABLE_URL,
-                              BOOKING_SUCCESS_REDIRECT_URL, BOOKING_TITLE, PAGINATION)
+                              BOOKING_SUCCESS_REDIRECT_URL, BOOKING_TITLE,
+                              PAGINATION)
+from booking.utils import BookingSettingMixin
 
 
 # # # # # # #
 # Admin Part
 # # # # # # #
-class AdminHomeView(TemplateView):
+class AdminHomeView(BookingSettingMixin, TemplateView):
     model = Booking
     template_name = "booking/admin/dashboard.html"
 
@@ -27,14 +33,13 @@ class AdminHomeView(TemplateView):
         return context
 
 
-class BookingListView(ListView):
+class BookingListView(BookingSettingMixin, ListView):
     model = Booking
     template_name = "booking/admin/appointment_list.html"
     paginate_by = PAGINATION
 
 
-# @method_decorator(user_passes_test(lambda u: u.is_superuser), name='dispatch')
-class BookingSettingsView(UpdateView):
+class BookingSettingsView(BookingSettingMixin, UpdateView):
     form_class = BookingSettingsForm
     template_name = "booking/admin/appointment_settings.html"
 
@@ -45,6 +50,8 @@ class BookingSettingsView(UpdateView):
         return reverse("booking_settings")
 
 
+@require_http_methods(["GET", "POST"])
+@staff_member_required
 def bookingUpdateView(request, id, type):
     if request.method == "GET":
         item = get_object_or_404(Booking, id=id)
@@ -77,23 +84,23 @@ class BookingCreateWizardView(SessionWizardView):
 
     def get_context_data(self, form, **kwargs):
         context = super().get_context_data(form=form, **kwargs)
+        progress_width = "6"
+        if self.steps.current == 'Time':
+            context.update({
+                "get_available_time": get_available_time(self.get_cleaned_data_for_step('Date')["date"]),
+            })
+            progress_width = "30"
+        if self.steps.current == 'User Info':
+            progress_width = "75"
+
         context.update({
             'booking_settings': BookingSettings.objects.first(),
-            "progress_width": "6",
+            "progress_width": progress_width,
             "booking_bg": BOOKING_BG,
             "description": BOOKING_DESC,
             "title": BOOKING_TITLE
 
         })
-        if self.steps.current == 'Time':
-            context.update({
-                "get_available_time": get_available_time(self.get_cleaned_data_for_step('Date')["date"]),
-                "progress_width": "30"
-            })
-        if self.steps.current == 'User Info':
-            context.update({
-                "progress_width": "75"
-            })
         return context
 
     def render(self, form=None, **kwargs):
@@ -116,18 +123,26 @@ class BookingCreateWizardView(SessionWizardView):
 
         return render(self.request, 'booking/user/booking_done.html', {
             "progress_width": "100",
-            "booking_id": booking.id
+            "booking_id": booking.id,
+            "booking_bg": BOOKING_BG,
+            "description": BOOKING_DESC,
+            "title": BOOKING_TITLE
         })
 
 
-def add_delta(tme, delta):
+def add_delta(time: datetime.time, delta: datetime.datetime) -> datetime.time:
     # transform to a full datetime first
     return (datetime.datetime.combine(
-        datetime.date.today(), tme
+        datetime.date.today(), time
     ) + delta).time()
 
 
-def get_available_time(date):
+def get_available_time(date: datetime.date) -> List[Dict[datetime.time, bool]]:
+    """
+    Check for all available time for selected date
+    The times should ne betwwen start_time and end_time
+    If the time already is taken -> is_taken = True
+    """
     booking_settings = BookingSettings.objects.first()
     existing_bookings = Booking.objects.filter(
         date=date).values_list('time')
