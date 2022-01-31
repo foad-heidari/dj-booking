@@ -20,7 +20,7 @@ from booking.utils import BookingSettingMixin
 # # # # # # #
 # Admin Part
 # # # # # # #
-class AdminHomeView(BookingSettingMixin, TemplateView):
+class BookingHomeView(BookingSettingMixin, TemplateView):
     model = Booking
     template_name = "booking/admin/dashboard.html"
 
@@ -35,13 +35,13 @@ class AdminHomeView(BookingSettingMixin, TemplateView):
 
 class BookingListView(BookingSettingMixin, ListView):
     model = Booking
-    template_name = "booking/admin/appointment_list.html"
+    template_name = "booking/admin/booking_list.html"
     paginate_by = PAGINATION
 
 
 class BookingSettingsView(BookingSettingMixin, UpdateView):
     form_class = BookingSettingsForm
-    template_name = "booking/admin/appointment_settings.html"
+    template_name = "booking/admin/booking_settings.html"
 
     def get_object(self):
         return BookingSettings.objects.filter().first()
@@ -62,16 +62,14 @@ def bookingUpdateView(request, id, type):
             item.approved = True
             item.save()
             messages.success(request, "The item successfully approved!")
-
         return redirect(reverse("booking_list"))
-
     return redirect(reverse("create_booking"))
 
 
 # # # # # # # #
 # Booking Part
 # # # # # # # #
-named_contact_forms = (
+BOOKING_STEP_FORMS = (
     ('Date', BookingDateForm),
     ('Time', BookingTimeForm),
     ('User Info', BookingCustomerForm)
@@ -80,15 +78,14 @@ named_contact_forms = (
 
 class BookingCreateWizardView(SessionWizardView):
     template_name = "booking/user/booking_wizard.html"
-    form_list = named_contact_forms
+    form_list = BOOKING_STEP_FORMS
 
     def get_context_data(self, form, **kwargs):
         context = super().get_context_data(form=form, **kwargs)
         progress_width = "6"
         if self.steps.current == 'Time':
-            context.update({
-                "get_available_time": get_available_time(self.get_cleaned_data_for_step('Date')["date"]),
-            })
+            context["get_available_time"] = get_available_time(
+                self.get_cleaned_data_for_step('Date')["date"])
             progress_width = "30"
         if self.steps.current == 'User Info':
             progress_width = "75"
@@ -109,13 +106,13 @@ class BookingCreateWizardView(SessionWizardView):
         context = self.get_context_data(form=form, **kwargs)
 
         if not context["booking_settings"].booking_enable:
-            return redirect(BOOKING_DISABLE_URL if BOOKING_DISABLE_URL else "/")
+            return redirect(BOOKING_DISABLE_URL)
 
         return self.render_to_response(context)
 
     def done(self, form_list, **kwargs):
-        data = dict((k, v) for form in form_list for k,
-                    v in form.cleaned_data.items())
+        data = dict((key, value) for form in form_list for key,
+                    value in form.cleaned_data.items())
         booking = Booking.objects.create(**data)
 
         if BOOKING_SUCCESS_REDIRECT_URL:

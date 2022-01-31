@@ -51,6 +51,6 @@ class BookingSettingsForm(ChangeInputsStyle, forms.ModelForm):
         fields = "__all__"
         exclude = [
             # TODO: Add this fields to admin panel and fix the functions
-            "max_appointment_per_time",
-            "max_appointment_per_day",
+            "max_booking_per_time",
+            "max_booking_per_day",
         ]

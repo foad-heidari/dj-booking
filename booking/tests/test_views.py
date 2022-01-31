@@ -1,7 +1,8 @@
 from django.contrib.auth.models import User
-from django.test import TestCase, Client
+from django.test import Client, TestCase
 from django.urls import reverse
 from django.utils.encoding import force_str
+
 from booking.models import Booking
 from booking.tests.test_forms import DEMO_BOOKING_DATA
 

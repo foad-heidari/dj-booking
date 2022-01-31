@@ -13,15 +13,15 @@
     <div class="row">
         <!-- last witing appontments tabel START -->
         <div class="col-lg-6 table-responsive my-2">
-            <h6 class="text-black-50">This weeek Appointments</h6>
-            {% include 'booking/admin/components/appointment_tabel.html' with bookings=last_bookings %}
+            <h6 class="text-black-50">This weeek bookings</h6>
+            {% include 'booking/admin/components/booking_tabel.html' with bookings=last_bookings %}
         </div>
         <!-- last witing appontments tabel END -->
 
         <!-- last witing appontments tabel START -->
         <div class="col-lg-6 table-responsive my-2">
-            <h6 class="text-black-50">Waiting Appointments</h6>
-            {% include 'booking/admin/components/appointment_tabel.html' with bookings=waiting_bookings %}
+            <h6 class="text-black-50">Waiting bookings</h6>
+            {% include 'booking/admin/components/booking_tabel.html' with bookings=waiting_bookings %}
         </div>
         <!-- last witing appontments tabel END -->
 

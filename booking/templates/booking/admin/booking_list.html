@@ -1,13 +1,13 @@
 {% extends 'booking/base.html' %}
 
 {% block content %}
-<h2 class="text-black-50 my-4">Appointments</h2>
+<h2 class="text-black-50 my-4">bookings</h2>
 <hr>
 
 <div class="row mt-1">
     <!-- last witing appontments tabel START -->
     <div style="min-height: 200px;" class="my-2">
-        {% include 'booking/admin/components/appointment_tabel.html' with bookings=object_list full_table=True %}
+        {% include 'booking/admin/components/booking_tabel.html' with bookings=object_list full_table=True %}
     </div>
     <!-- last witing appontments tabel END -->
 

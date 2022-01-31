@@ -5,7 +5,6 @@ from django.test import TestCase
 from booking.forms import (BookingCustomerForm, BookingDateForm,
                            BookingSettingsForm, BookingTimeForm)
 
-
 DEMO_BOOKING_DATA = {
         "date": (datetime.datetime.now() + datetime.timedelta(days=1)).strftime("%Y-%m-%d"),
         "time": "12:00",
@@ -97,7 +96,7 @@ class TestBookingSettingsForm(TestCase):
             "booking_enable": True,
             "confirmation_required": True,
             "available_booking_months": 1,
-            "max_appointment_per_time": 1,
+            "max_booking_per_time": 1,
             "period_of_each_booking": "30",
         }
 

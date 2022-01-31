@@ -16,7 +16,7 @@ Supported Flows
 
 - Manage bookings
 
-- Approve or Remove each appointment
+- Approve or Remove each booking
 
 - Overview of bookings
 

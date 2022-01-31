@@ -8,7 +8,7 @@ Overview
 
 what you get:
    - A booking page which users can book appointments.
-   - A dashboard which the admin can see the appointments and make actions
+   - A dashboard which the admin can see the bookings and make actions
 
 Requirements
 ============

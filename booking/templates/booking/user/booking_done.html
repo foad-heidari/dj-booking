@@ -11,11 +11,11 @@
 {% block steps %}
     <!-- Last Step START -->
     <div class="tab-pane fade show active" id="pills-done" role="tabpanel" aria-labelledby="pills-done-tab">
-        <h1 class="text-success h2">Your appointment Created!</h1>
+        <h1 class="text-success h2">Your Booking Created!</h1>
         <p class="text-muted">you will get a confirmation email soon.</p>
         <p class="text-muted">thanks for your time!</p>
         <div class="d-flex align-items-center text-center justify-content-center py-3 border">
-            <h4 class="text-muted">appointment ID: </h4>
+            <h4 class="text-muted">Booking ID: </h4>
             <h2 style="padding-left: 6px;">#{{booking_id}}</h2>
         </div>
     </div>
@@ -25,6 +25,6 @@
 
 {% block buttons %}
 <div class="form-btn d-flex mt-4">
-    <a href="{% url 'create_booking' %}" id="make-new-app" class="btn btn-primary mx-auto">Make another appointment</a>
+    <a href="{% url 'create_booking' %}" id="make-new-app" class="btn btn-primary mx-auto">Make another booking</a>
 </div>
 {% endblock buttons %}
