@@ -1,11 +1,10 @@
 import datetime
 from typing import Dict, List
 
-from django.contrib import messages
-from django.contrib.admin.views.decorators import staff_member_required
 from django.shortcuts import get_object_or_404, redirect, render, reverse
-from django.views.decorators.http import require_http_methods
-from django.views.generic import ListView, TemplateView, UpdateView
+from django.urls import reverse_lazy
+from django.views.generic import (DeleteView, ListView, TemplateView,
+                                  UpdateView, View)
 from formtools.wizard.views import SessionWizardView
 
 from booking.forms import (BookingCustomerForm, BookingDateForm,
@@ -50,20 +49,23 @@ class BookingSettingsView(BookingSettingMixin, UpdateView):
         return reverse("booking_settings")
 
 
-@require_http_methods(["GET", "POST"])
-@staff_member_required
-def bookingUpdateView(request, id, type):
-    if request.method == "GET":
-        item = get_object_or_404(Booking, id=id)
-        if type == "delete":
-            item.delete()
-            messages.warning(request, "The item successfully deleted!")
-        elif type == "approved":
-            item.approved = True
-            item.save()
-            messages.success(request, "The item successfully approved!")
-        return redirect(reverse("booking_list"))
-    return redirect(reverse("create_booking"))
+class BookingDeleteView(BookingSettingMixin, DeleteView):
+    mdoel = Booking
+    success_url = reverse_lazy('booking_list')
+    queryset = Booking.objects.filter()
+
+
+class BookingApproveView(BookingSettingMixin, View):
+    mdoel = Booking
+    success_url = reverse_lazy('booking_list')
+    fields = ("approved",)
+
+    def post(self, request, *args, **kwargs):
+        booking = get_object_or_404(Booking, pk=self.kwargs.get("pk"))
+        booking.approved = True
+        booking.save()
+
+        return redirect(self.success_url)
 
 
 # # # # # # # #

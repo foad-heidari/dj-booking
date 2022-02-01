@@ -17,33 +17,43 @@
       </tr>
     </thead>
     <tbody>
-      {% for books in bookings %}
+      {% for booking in bookings %}
       <tr>
         {% if full_table %}
-          <th scope="row">{{books.id}}</th>
+          <th scope="row">{{booking.id}}</th>
         {% endif %}
 
-        <td>{{books.user_name}}</td>
-        <td>{{books.date}}</td>
-        <td>{{books.time}}</td>
-        <td>{{books.user_mobile|default:""}}</td>
-        <td>{{books.user_email}}</td>
+        <td>{{booking.user_name}}</td>
+        <td>{{booking.date}}</td>
+        <td>{{booking.time}}</td>
+        <td>{{booking.user_mobile|default:""}}</td>
+        <td>{{booking.user_email}}</td>
         {% if full_table %}
-          <td>{{books.created_at}}</td>
+          <td>{{booking.created_at}}</td>
           <td class="d-flex">
 
             <div class="col dropdown">
-              <button class="btn btn-secondary btn-sm dropdown-toggle p-0 pe-1" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+              <button class="btn btn-secondary btn-sm dropdown-toggle p-0 pe-1" type="button" id="actionDropdown" data-bs-toggle="dropdown" aria-expanded="false">
               </button>
-              <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                {% if not books.approved %}
-                  <li><a class="dropdown-item" href="{% url 'booking_update' books.id 'approved' %}">Approve</a></li>
+              <ul class="dropdown-menu" aria-labelledby="actionDropdown">
+                <li>
+                  <form action="{% url 'booking_delete' booking.id %}" method="POST">
+                    {% csrf_token %}
+                    <button type="submit" class="dropdown-item">Delete</button>
+                  </form>
+                </li>
+                {% if not booking.approved %}
+                  <li>
+                    <form action="{% url 'booking_approve' booking.id %}" method="POST">
+                      {% csrf_token %}
+                      <button type="submit" class="dropdown-item">Approve</button>
+                    </form>
+                  </li>
                 {% endif %}
-                <li><a class="dropdown-item" href="{% url 'booking_update' books.id 'delete' %}">Remove</a></li>
               </ul>
             </div>
             <div class="col">
-              {% if books.approved %}
+              {% if booking.approved %}
                   <i class="fas fa-check-square text-success"></i>
               {% else %}
                   <i class="far fa-pause-circle text-danger"></i>

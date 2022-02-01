@@ -79,7 +79,6 @@ class TestBookingAdminViews(TestCase):
             '<tbody></tbody>', force_str(response.content))
 
 
-
 class TestBookingUserViews(TestCase):
     # TODO: Create the test
     pass

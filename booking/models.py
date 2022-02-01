@@ -2,23 +2,24 @@ from django.conf import settings
 from django.db import models
 
 BOOKING_PERIOD = (
-    ("5","5M"),
-    ("10","10M"),
-    ("15","15M"),
-    ("20","20M"),
-    ("25","25M"),
-    ("30","30M"),
-    ("35","35M"),
-    ("40","40M"),
-    ("45","45M"),
-    ("60","1H"),
-    ("75","1H 15M"), 
-    ("90","1H 30M"), 
-    ("105","1H 45M"),
-    ("120","2H"),
-    ("150","2H 30M"),
-    ("180","3H"),
+    ("5", "5M"),
+    ("10", "10M"),
+    ("15", "15M"),
+    ("20", "20M"),
+    ("25", "25M"),
+    ("30", "30M"),
+    ("35", "35M"),
+    ("40", "40M"),
+    ("45", "45M"),
+    ("60", "1H"),
+    ("75", "1H 15M"),
+    ("90", "1H 30M"),
+    ("105", "1H 45M"),
+    ("120", "2H"),
+    ("150", "2H 30M"),
+    ("180", "3H"),
 )
+
 
 class Booking(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL,
@@ -32,7 +33,6 @@ class Booking(models.Model):
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-
 
     def __str__(self) -> str:
         return self.user_name or "(No Name)"

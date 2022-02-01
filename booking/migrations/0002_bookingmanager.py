@@ -8,11 +8,13 @@ def forwards_func(apps, schema_editor):
     db_alias = schema_editor.connection.alias
     BookingSettings.objects.using(db_alias).create(start_time="09:00", end_time="17:00")
 
+
 def reverse_func(apps, schema_editor):
     # remove the object we created on forwards_func
     BookingSettings = apps.get_model("booking", "BookingSettings")
     db_alias = schema_editor.connection.alias
     BookingSettings.objects.using(db_alias).filter(start_time="09:00", end_time="17:00").delete()
+
 
 class Migration(migrations.Migration):
 
@@ -32,7 +34,10 @@ class Migration(migrations.Migration):
                 ('max_booking_per_day', models.IntegerField(blank=True, null=True)),
                 ('start_time', models.TimeField()),
                 ('end_time', models.TimeField()),
-                ('period_of_each_booking', models.CharField(choices=[('5', '5M'), ('10', '10M'), ('15', '15M'), ('20', '20M'), ('25', '25M'), ('30', '30M'), ('35', '35M'), ('40', '40M'), ('45', '45M'), ('60', '1H'), ('75', '1H 15M'), ('90', '1H 30M'), ('105', '1H 45M'), ('120', '2H'), ('150', '2H 30M'), ('180', '3H')], default='30', help_text='How long each booking take.', max_length=3)),
+                ('period_of_each_booking', models.CharField(choices=[
+                    ('5', '5M'), ('10', '10M'), ('15', '15M'), ('20', '20M'), ('25', '25M'), ('30', '30M'), ('35', '35M'), ('40', '40M'), ('45', '45M'), (
+                        '60', '1H'), ('75', '1H 15M'), ('90', '1H 30M'), ('105', '1H 45M'), ('120', '2H'), ('150', '2H 30M'), ('180', '3H')
+                ], default='30', help_text='How long each booking take.', max_length=3)),
                 ('max_booking_per_time', models.IntegerField(default=1, help_text='how much booking can be book for each time.')),
             ],
         ),

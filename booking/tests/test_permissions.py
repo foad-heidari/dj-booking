@@ -25,7 +25,6 @@ class TestPermissions(TestCase):
         response = self.client.get(reverse("booking_settings"))
         self.assertEqual(response.status_code, 302)
 
-
         # Loggin as stuff user
         self.client.login(
             username=DEMO_DATA["user_name"], password=DEMO_DATA["password"])
