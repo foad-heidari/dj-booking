@@ -8,13 +8,19 @@ with open(os.path.join(os.path.dirname(__file__), 'README.rst')) as readme:
 # allow setup.py to be run from any path
 os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
 
-requirements = []
-with open("requirements.txt", "r") as fh:
-    requirements.append(fh.readlines())
+requirements = [
+    "asgiref>=3",
+    "backports.zoneinfo>=0.2",
+    "Django>=4.",
+    "django-formtools>=2",
+    "pycodestyle>=2",
+    "sqlparse>=0.4",
+    "toml>=0.10"
+]
 
 setup(
     name='dj-booking',
-    version='1.5',
+    version='1.6.2',
     description='Django Booking is a complete Django booking system as a package.',
     long_description=README,
     long_description_content_type='text/markdown',
