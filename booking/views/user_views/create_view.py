@@ -19,46 +19,46 @@ class BookingCreateWizardView(SessionWizardView):
 
     def get_context_data(self, form, **kwargs):
         context = super().get_context_data(form=form, **kwargs)
-        progress_width = "6"
-        if self.steps.current == 'Time':
-            context["get_available_time"] = get_available_time(
-                self.get_cleaned_data_for_step('Date')["date"])
-            progress_width = "30"
-        if self.steps.current == 'User Info':
-            progress_width = "75"
-
+        progress_widths = {'Date': '6', 'Time': '30', 'User Info': '75'}
+        current_step = self.steps.current
         context.update({
-            'booking_settings': BookingSettings.objects.first(),
-            "progress_width": progress_width,
-            "booking_bg": BOOKING_BG,
-            "description": BOOKING_DESC,
-            "title": BOOKING_TITLE
-
+            'progress_width': progress_widths.get(current_step, '0'),
+            'booking_settings': self.get_booking_settings(),
+            'booking_bg': BOOKING_BG,
+            'description': BOOKING_DESC,
+            'title': BOOKING_TITLE,
         })
+        
+        if current_step == 'Time':
+            context['get_available_time'] = get_available_time(self.get_cleaned_data_for_step('Date')['date'])
+
         return context
 
+    def get_booking_settings(self):
+        if not hasattr(self, '_booking_settings'):
+            self._booking_settings = BookingSettings.objects.first()
+        return self._booking_settings
+
     def render(self, form=None, **kwargs):
-        # Check if Booking is Disable
         form = form or self.get_form()
         context = self.get_context_data(form=form, **kwargs)
 
-        if not context["booking_settings"].booking_enable:
+        if not context['booking_settings'].booking_enable:
             return redirect(BOOKING_DISABLE_URL)
 
         return self.render_to_response(context)
 
     def done(self, form_list, **kwargs):
-        data = dict((key, value) for form in form_list for key,
-                    value in form.cleaned_data.items())
+        data = {key: value for form in form_list for key, value in form.cleaned_data.items()}
         booking = Booking.objects.create(**data)
-
         if BOOKING_SUCCESS_REDIRECT_URL:
             return redirect(BOOKING_SUCCESS_REDIRECT_URL)
-
-        return render(self.request, 'booking/user/booking_done.html', {
-            "progress_width": "100",
-            "booking_id": booking.id,
-            "booking_bg": BOOKING_BG,
-            "description": BOOKING_DESC,
-            "title": BOOKING_TITLE
-        })
+        
+        return render(
+            self.request, 'booking/user/booking_done.html', {
+                "progress_width": "100",
+                "booking_id": booking.id,
+                "booking_bg": BOOKING_BG,
+                "description": BOOKING_DESC,
+                "title": BOOKING_TITLE,
+            })
