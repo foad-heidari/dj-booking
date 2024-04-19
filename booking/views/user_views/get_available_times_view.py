@@ -56,6 +56,6 @@ def get_available_time(date: datetime.date) -> list:
         })
 
         # Increment the time by the booking period interval
-        start_time = add_delta(start_time, datetime.timedelta(minutes=settings.period_of_each_booking))
+        start_time = add_delta(start_time, datetime.timedelta(minutes=int(settings.period_of_each_booking)))
 
     return time_slots
