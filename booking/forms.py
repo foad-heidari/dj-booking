@@ -34,23 +34,34 @@ class BookingCustomerForm(ChangeInputsStyle):
     user_mobile = forms.CharField(required=False, max_length=10)
 
 
+
 class BookingSettingsForm(ChangeInputsStyle, forms.ModelForm):
     start_time = forms.TimeField(widget=forms.TimeInput(format='%H:%M'))
     end_time = forms.TimeField(widget=forms.TimeInput(format='%H:%M'))
 
-    def clean(self):
+    def clean_max_booking_per_time(self):
+        if self.cleaned_data["max_booking_per_time"] < 1:
+            raise forms.ValidationError(
+                    "max booking per time must be 1 or more")
+        return self.cleaned_data["max_booking_per_time"]
+
+    def clean_end_time(self):
         if "end_time" in self.cleaned_data and "start_time" in self.cleaned_data:
             if self.cleaned_data["end_time"] <= self.cleaned_data["start_time"]:
                 raise forms.ValidationError(
-                    "The end time must be later than start time."
+                    [{"end_time":"The end time must be later than start time."}]
                 )
-        return self.cleaned_data
+        # if self.cleaned_data["max_booking_per_time"] < 1:
+        #     raise forms.ValidationError(
+        #             "max booking per time must be 1 or more")
+
+        return self.cleaned_data["end_time"]
 
     class Meta:
         model = BookingSettings
         fields = "__all__"
         exclude = [
             # TODO: Add this fields to admin panel and fix the functions
-            "max_booking_per_time",
+            # "max_booking_per_time",
             "max_booking_per_day",
         ]
